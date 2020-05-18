@@ -1,3 +1,9 @@
+### <span style="font-family:Inconsolata;">About the app</span>
+
+<span style="font-family:Lato;">This version of the app was made for the e-Rum2020 CovidR contest and is hosted on shinyapps.io. For the self-hosted version available indefinitely, please click [here](http://dataenthusiast.ca:3838/covid_ca/). There is no difference in how these versions work.</span>
+
+<span style="font-family:Lato;">COVID-19 Canada Data Explorer was [recommended](https://www.macdonaldlaurier.ca/covid-19-canada-can-meet-global-challenge/) by the  [Macdonald-Laurier Institute](https://www.macdonaldlaurier.ca/) – one of Canada’s leading public policy think tanks - to track the progression of COVID-19 epidemic in Canada.</span>
+
 ### <span style="font-family:Inconsolata;">What some indicators mean</span>
 
 <span style="font-family:Lato;"><u>Total cases</u> are all cases since the start of the epidemic, i.e. cumulative cases. For the number of people currently ill, see "Active cases".</span>
@@ -10,7 +16,7 @@
 
 ### <span style="font-family:Inconsolata;">Data</span>
 
-<span style="font-family:Lato;">The [data](https://health-infobase.canada.ca/src/data/covidLive/covid19.csv) is downloaded from the Government of Canada [official COVID-19 page](https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection.html) at 6-hour intervals to minimize the load on the repository. Thus there may be a delay of up to 6 hours from the time [canada.ca](https://www.canada.ca/en.html) update their data to the moment it gets updated on my server.</span>
+<span style="font-family:Lato;">The [data](https://health-infobase.canada.ca/src/data/covidLive/covid19.csv) is downloaded from the Government of Canada [official COVID-19 page](https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection.html).</span>
 
 <span style="font-family:Lato;">To calculate "Cases per 100,000", “Active cases per 100,000”, "Mortality per 100,000", and "Tests done per 1,000", I used Statistics Canada population estimates for the first quarter of 2020. Source: Statistics Canada Data table  [17-10-0009](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1710000901).</span>
 
@@ -27,10 +33,6 @@
 ### <span style="font-family:Inconsolata;">About the author</span>
 
 <span style="font-family:Lato;">My name is [Petr Baranovskiy](https://dataenthusiast.ca/?page_id=464), I am an R language enthusiast, and until recently I worked as a researcher with the University of Saskatchewan, where I specialized in economic policy analysis, economic and statistical modeling, energy policy, and the use of geospatial data for policy analysis. If you liked this app, please visit my blog at [dataenthusiast.ca](https://dataenthusiast.ca/) and follow me on [Twitter](https://twitter.com/PBaranovskiy).</span>
-
-### <span style="font-family:Inconsolata;">Implementation</span>
-
-<span style="font-family:Lato;">This app was [recommended](https://www.macdonaldlaurier.ca/covid-19-canada-can-meet-global-challenge/) by the  [Macdonald-Laurier Institute](https://www.macdonaldlaurier.ca/) – one of Canada’s leading public policy think tanks - to track the progression of COVID-19 epidemic in Canada.</span>
 
 ### <span style="font-family:Inconsolata;">Disclaimer</span>
 

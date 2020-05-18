@@ -8,7 +8,7 @@ library(plotly)
 library(scales)
 library(cansim)
 library(sf)
-
+library(RCurl)
 
 ### Section 1: Read & clean data, make static objects ###
 
@@ -18,11 +18,20 @@ population <- cansim::get_cansim("17-10-0009") %>%
   select(region = GEO, population = VALUE) %>% 
   mutate_if(is.double, as.integer)
 
-# 1.2. Read and clean COVID-19 data 
-# The data is downloaded every 6 hours using cron & wget
-# My crontab: 
-# 0 */6 * * * wget -q https://health-infobase.canada.ca/src/data/covidLive/covid19.csv -O /srv/shiny-server/covid_ca/covid19.csv >/dev/null 2>&1
-# 2 */6 * * * /usr/sbin/service shiny-server restart >/dev/null 2>&1
+# 1.2. Read and clean COVID-19 data
+if (url.exists("https://health-infobase.canada.ca/src/data/covidLive/covid19.csv")) {
+  download.file("https://health-infobase.canada.ca/src/data/covidLive/covid19.csv",
+                "covid19.csv",
+                method = "auto")
+  covid <- read_csv("covid19.csv",
+                    col_types = cols(), # col_types = cols() suppresses messages
+                    na = c("", "NA", "N/A", "N\\A"))
+} else {
+  covid <- read_csv("covid19.csv",
+                    col_types = cols(), # col_types = cols() suppresses messages
+                    na = c("", "NA", "N/A", "N\\A"))
+}
+
 covid <- read_csv("covid19.csv", 
                   col_types = cols(), # col_types = cols() suppresses messages
                   na = c("", "NA", "N/A")) %>% 
@@ -179,7 +188,7 @@ ui <-
                            min = min(covid$date),   # For most indicators, N too small before Mar 21, causes
                            max = max(covid$date),   # error in colorQuantile(): 'breaks' are not unique.
                            format = "dd MM yyyy"),
-                 tags$p(HTML("<div style='font-family:Inconsolata; font-size:14px;'>If data for the chosen indicator is not available for the selected date, the date will revert to the last day, for which there is data.</div>")),
+                 tags$p(HTML("<div style='font-family:Inconsolata; font-size:11pt;'>If data for the chosen indicator is not available for the selected date, the date will revert to the last day, for which there is data.</div>")),
                  selectInput(inputId = "my_region", 
                              label = h5("Region - plot only"), 
                              selected = "Canada",
@@ -191,8 +200,8 @@ ui <-
                                 min = min(covid$date),
                                 max = max(covid$date),
                                 format = "dd M yyyy"),
-                 tags$p(HTML("<div style='font-family:Inconsolata; font-size:14px;'>If data for the chosen indicator is not available for the selected date range, the date range will revert to the range, for which there is data.</div>")),
-                 tags$p(HTML("<div style='font-family:Inconsolata; font-size:14px;'>© Petr Baranovskiy @ dataenthusiast.ca</div>"))
+                 tags$p(HTML("<div style='font-family:Inconsolata; font-size:11pt;'>If data for the chosen indicator is not available for the selected date range, the date range will revert to the range, for which there is data.</div>")),
+                 tags$p(HTML("<div style='font-family:Inconsolata; font-size:11pt;'>© Petr Baranovskiy @ dataenthusiast.ca</div>"))
                ),
                mainPanel(width = 9,
                          fluidRow(htmlOutput("map_title")),
@@ -212,8 +221,9 @@ ui <-
                              label = h4("Choose indicator"), 
                              selected = "cases_per_100000",
                              choices = indicators_comp),
+                 tags$p(HTML("<div style='font-family:Inconsolata;'><h5>How to use:</h5></div>")),
                  includeMarkdown("compare.md"),
-                 tags$p(HTML("<div style='font-family:Inconsolata; font-size:14px;'>© Petr Baranovskiy @ dataenthusiast.ca</div>")
+                 tags$p(HTML("<div style='font-family:Inconsolata; font-size:11pt;'>© Petr Baranovskiy @ dataenthusiast.ca</div>")
                  )
                ),
                mainPanel(
@@ -244,13 +254,14 @@ ui <-
                               label = "Select all / Deselect all"),
                  dateRangeInput(inputId = "my_daterange2", 
                                 label = h5("Date range"), 
-                                start = min(covid$date),
+                                start = max(covid$date) - 30,
                                 end = max(covid$date),
                                 min = min(covid$date),
                                 max = max(covid$date),
                                 format = "dd M yyyy"),
                  downloadButton(outputId = "downloader", 
-                                label = h5("Download your selection"))
+                                label = h5("Download your selection")),
+                 tags$p(HTML("<div style='font-family:Inconsolata; font-size:11pt;'>© Petr Baranovskiy @ dataenthusiast.ca</div>"))
                ),
                mainPanel(
                  width = 7,
